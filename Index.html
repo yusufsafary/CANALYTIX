@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canalytix | Canopy Network Analytics</title>
+    <style>
+        :root {
+            --canopy-green: #00D084;
+            --canopy-dark: #00B870;
+            --black: #0a0a0a;
+            --white: #ffffff;
+            --gray-100: #f5f5f5;
+            --gray-200: #e5e5e5;
+            --gray-600: #525252;
+            --gray-900: #171717;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--white);
+            color: var(--black);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .border-thick {
+            border: 3px solid var(--black);
+        }
+
+        .border-green {
+            border: 3px solid var(--canopy-green);
+        }
+
+        .bg-green {
+            background-color: var(--canopy-green);
+        }
+
+        .text-green {
+            color: var(--canopy-green);
+        }
+
+        .bg-black {
+            background-color: var(--black);
+            color: var(--white);
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--white);
+            border-bottom: 3px solid var(--black);
+            z-index: 1000;
+            padding: 1rem 2rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 900;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: -0.05em;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--canopy-green);
+            border: 3px solid var(--black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--black);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+            padding-bottom: 0.25rem;
+        }
+
+        .nav-links a:hover {
+            border-bottom-color: var(--canopy-green);
+            color: var(--canopy-green);
+        }
+
+        .mobile-menu {
+            display: none;
+            background: none;
+            border: 3px solid var(--black);
+            padding: 0.5rem;
+            cursor: pointer;
+            font-size: 1.25rem;
+        }
+
+        main {
+            margin-top: 80px;
+            min-height: calc(100vh - 80px);
+        }
+
+        .hero {
+            padding: 4rem 2rem;
+            border-bottom: 3px solid var(--black);
+            background: linear-gradient(135deg, var(--white) 0%, var(--gray-100) 100%);
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 900;
+            line-height: 0.9;
+            text-transform: uppercase;
+            letter-spacing: -0.04em;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text .highlight {
+            display: inline-block;
+            background: var(--canopy-green);
+            padding: 0 1rem;
+            border: 3px solid var(--black);
+            transform: rotate(-2deg);
+        }
+
+        .hero-text p {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            max-width: 500px;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            font-family: inherit;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            cursor: pointer;
+            border: 3px solid var(--black);
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s;
+            box-shadow: 4px 4px 0 var(--black);
+        }
+
+        .btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 var(--black);
+        }
+
+        .btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 0 0 0 var(--black);
+        }
+
+        .btn-primary {
+            background: var(--canopy-green);
+            color: var(--black);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--black);
+        }
+
+        .btn-secondary:hover {
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border: 3px solid var(--black);
+            padding: 1.5rem;
+            box-shadow: 6px 6px 0 var(--black);
+            transition: all 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 10px 10px 0 var(--canopy-green);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--gray-600);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--black);
+        }
+
+        .stat-change {
+            font-size: 0.875rem;
+            font-weight: 700;
+            margin-top: 0.5rem;
+        }
+
+        .positive {
+            color: var(--canopy-dark);
+        }
+
+        .negative {
+            color: #dc2626;
+        }
+
+        .ticker {
+            background: var(--black);
+            color: var(--white);
+            padding: 0.75rem 0;
+            overflow: hidden;
+            border-bottom: 3px solid var(--canopy-green);
+            position: relative;
+        }
+
+        .ticker-content {
+            display: flex;
+            animation: scroll 30s linear infinite;
+            white-space: nowrap;
+        }
+
+        .ticker-item {
+            padding: 0 2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .ticker-item::after {
+            content: "◆";
+            color: var(--canopy-green);
+            margin-left: 2rem;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        section {
+            padding: 4rem 2rem;
+            border-bottom: 3px solid var(--black);
+        }
+
+        .section-header {
+            max-width: 1400px;
+            margin: 0 auto 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.03em;
+            line-height: 1;
+        }
+
+        .section-title span {
+            display: block;
+            font-size: 0.875rem;
+            color: var(--canopy-green);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.1em;
+        }
+
+        .token-section {
+            background: var(--gray-100);
+        }
+
+        .token-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .token-card {
+            background: var(--white);
+            border: 3px solid var(--black);
+            padding: 1.5rem;
+            box-shadow: 6px 6px 0 var(--black);
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .token-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--canopy-green);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s;
+        }
+
+        .token-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .token-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 8px 8px 0 var(--canopy-green);
+        }
+
+        .token-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .token-info {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .token-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--canopy-green);
+            border: 3px solid var(--black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.25rem;
+        }
+
+        .token-name h3 {
+            font-size: 1.25rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+        }
+
+        .token-symbol {
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--gray-600);
+            background: var(--gray-200);
+            padding: 0.25rem 0.5rem;
+            display: inline-block;
+        }
+
+        .token-price {
+            text-align: right;
+        }
+
+        .price-main {
+            font-size: 1.5rem;
+            font-weight: 900;
+        }
+
+        .price-change {
+            font-size: 0.875rem;
+            font-weight: 700;
+            padding: 0.25rem 0.5rem;
+            margin-top: 0.25rem;
+            display: inline-block;
+        }
+
+        .price-change.positive {
+            background: rgba(0, 208, 132, 0.1);
+            border: 2px solid var(--canopy-green);
+        }
+
+        .price-change.negative {
+            background: rgba(220, 38, 38, 0.1);
+            border: 2px solid #dc2626;
+        }
+
+        .token-metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--gray-200);
+        }
+
+        .metric {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--gray-600);
+            margin-bottom: 0.25rem;
+        }
+
+        .metric-value {
+            font-weight: 900;
+            font-size: 1rem;
+        }
+
+        .chart-section {
+            background: var(--white);
+        }
+
+        .chart-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        .chart-main {
+            background: var(--white);
+            border: 3px solid var(--black);
+            padding: 2rem;
+            box-shadow: 6px 6px 0 var(--black);
+            min-height: 400px;
+            position: relative;
+        }
+
+        .chart-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: repeating-linear-gradient(
+                45deg,
+                var(--gray-100),
+                var(--gray-100) 10px,
+                var(--white) 10px,
+                var(--white) 20px
+            );
+            border: 2px dashed var(--gray-200);
+            min-height: 300px;
+        }
+
+        .chart-text {
+            text-align: center;
+            color: var(--gray-600);
+            font-weight: 700;
+        }
+
+        .chart-text .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--canopy-green);
+        }
+
+        .chart-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .trend-list {
+            background: var(--white);
+            border: 3px solid var(--black);
+            padding: 1.5rem;
+            box-shadow: 6px 6px 0 var(--black);
+        }
+
+        .trend-list h4 {
+            font-size: 1rem;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--black);
+        }
+
+        .trend-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 2px solid var(--gray-200);
+            font-weight: 700;
+        }
+
+        .trend-item:last-child {
+            border-bottom: none;
+        }
+
+        .trend-rank {
+            color: var(--canopy-green);
+            margin-right: 0.5rem;
+        }
+
+        .features-section {
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .features-section .section-title span {
+            color: var(--canopy-green);
+        }
+
+        .features-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--gray-900);
+            border: 3px solid var(--white);
+            padding: 2rem;
+            transition: all 0.2s;
+        }
+
+        .feature-card:hover {
+            border-color: var(--canopy-green);
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--canopy-green);
+            border: 3px solid var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.25rem;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            font-weight: 900;
+        }
+
+        .feature-card p {
+            color: var(--gray-200);
+            line-height: 1.7;
+        }
+
+        .api-section {
+            background: var(--canopy-green);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .api-section::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: var(--black);
+            opacity: 0.05;
+            border-radius: 50%;
+        }
+
+        .api-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .code-block {
+            background: var(--black);
+            color: var(--white);
+            padding: 1.5rem;
+            border: 3px solid var(--black);
+            box-shadow: 6px 6px 0 rgba(0,0,0,0.2);
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            overflow-x: auto;
+        }
+
+        .code-block .comment {
+            color: var(--canopy-green);
+        }
+
+        .code-block .keyword {
+            color: #ff6b6b;
+        }
+
+        .code-block .string {
+            color: #ffd93d;
+        }
+
+        footer {
+            background: var(--black);
+            color: var(--white);
+            padding: 3rem 2rem;
+            border-top: 3px solid var(--canopy-green);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .footer-brand .logo {
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+
+        .footer-brand p {
+            color: var(--gray-200);
+            max-width: 300px;
+        }
+
+        .footer-links h4 {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            color: var(--canopy-green);
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--gray-200);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--canopy-green);
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray-600);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.875rem;
+            color: var(--gray-600);
+        }
+
+        @media (max-width: 1024px) {
+            .hero-content,
+            .api-content {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-container {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .token-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .cta-group {
+                width: 100%;
+            }
+
+            .btn {
+                flex: 1;
+                text-align: center;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .loading {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--gray-100);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--black);
+            border: 3px solid var(--gray-100);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--canopy-green);
+        }
+
+        ::selection {
+            background: var(--canopy-green);
+            color: var(--black);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <div class="logo-icon">C</div>
+                <span>Canalytix</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#tokens">Tokens</a></li>
+                <li><a href="#trends">Trends</a></li>
+                <li><a href="#api">API</a></li>
+                <li><a href="#docs">Documentation</a></li>
+            </ul>
+            <button class="mobile-menu">☰</button>
+        </nav>
+    </header>
+
+    <div class="ticker">
+        <div class="ticker-content">
+            <div class="ticker-item">CNPY $0.0421 ▲ 12.5%</div>
+            <div class="ticker-item">CANOPY TVL $2.4M ▲ 8.2%</div>
+            <div class="ticker-item">VALIDATORS 144 ▲ 3</div>
+            <div class="ticker-item">BLOCK HEIGHT 1,240,592</div>
+            <div class="ticker-item">TRANSACTIONS 45.2K</div>
+            <div class="ticker-item">CNPY $0.0421 ▲ 12.5%</div>
+            <div class="ticker-item">CANOPY TVL $2.4M ▲ 8.2%</div>
+            <div class="ticker-item">VALIDATORS 144 ▲ 3</div>
+            <div class="ticker-item">BLOCK HEIGHT 1,240,592</div>
+            <div class="ticker-item">TRANSACTIONS 45.2K</div>
+        </div>
+    </div>
+
+    <main>
+        <section class="hero" id="dashboard">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>
+                        Canopy
+                        <span class="highlight">Network</span>
+                        Analytics
+                    </h1>
+                    <p>Comprehensive on-chain analytics platform for the Canopy Network ecosystem. Track token trends, validator metrics, and real-time blockchain data.</p>
+                    <div class="cta-group">
+                        <a href="#tokens" class="btn btn-primary">View Tokens</a>
+                        <a href="#api" class="btn btn-secondary">API Documentation</a>
+                    </div>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-card">
+                        <div class="stat-label">Total Registered Tokens</div>
+                        <div class="stat-value">24</div>
+                        <div class="stat-change positive">+3 this week</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">24h Volume</div>
+                        <div class="stat-value">$1.2M</div>
+                        <div class="stat-change positive">▲ 23.5%</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Total Market Cap</div>
+                        <div class="stat-value">$8.4M</div>
+                        <div class="stat-change positive">▲ 15.2%</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Today's Transactions</div>
+                        <div class="stat-value">3,421</div>
+                        <div class="stat-change positive">▲ 8.7%</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="token-section" id="tokens">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span>Current Trends</span>
+                    Trending Tokens
+                </h2>
+                <a href="#" class="btn btn-secondary">View All →</a>
+            </div>
+            <div class="token-grid">
+                <div class="token-card">
+                    <div class="token-header">
+                        <div class="token-info">
+                            <div class="token-icon">C</div>
+                            <div class="token-name">
+                                <h3>Canopy</h3>
+                                <span class="token-symbol">CNPY</span>
+                            </div>
+                        </div>
+                        <div class="token-price">
+                            <div class="price-main">$0.0421</div>
+                            <div class="price-change positive">▲ 12.5%</div>
+                        </div>
+                    </div>
+                    <div class="token-metrics">
+                        <div class="metric">
+                            <span class="metric-label">Market Cap</span>
+                            <span class="metric-value">$4.2M</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Volume (24h)</span>
+                            <span class="metric-value">$890K</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Holders</span>
+                            <span class="metric-value">2,341</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Transactions</span>
+                            <span class="metric-value">45.2K</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="token-card">
+                    <div class="token-header">
+                        <div class="token-info">
+                            <div class="token-icon" style="background: #ff6b6b;">S</div>
+                            <div class="token-name">
+                                <h3>Shade</h3>
+                                <span class="token-symbol">SHD</span>
+                            </div>
+                        </div>
+                        <div class="token-price">
+                            <div class="price-main">$0.0085</div>
+                            <div class="price-change positive">▲ 28.3%</div>
+                        </div>
+                    </div>
+                    <div class="token-metrics">
+                        <div class="metric">
+                            <span class="metric-label">Market Cap</span>
+                            <span class="metric-value">$850K</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Volume (24h)</span>
+                            <span class="metric-value">$120K</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Holders</span>
+                            <span class="metric-value">892</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Transactions</span>
+                            <span class="metric-value">12.4K</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="token-card">
+                    <div class="token-header">
+                        <div class="token-info">
+                            <div class="token-icon" style="background: #4ecdc4;">V</div>
+                            <div class="token-name">
+                                <h3>Vault</h3>
+                                <span class="token-symbol">VLT</span>
+                            </div>
+                        </div>
+                        <div class="token-price">
+                            <div class="price-main">$0.0156</div>
+                            <div class="price-change negative">▼ 3.2%</div>
+                        </div>
+                    </div>
+                    <div class="token-metrics">
+                        <div class="metric">
+                            <span class="metric-label">Market Cap</span>
+                            <span class="metric-value">$1.56M</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Volume (24h)</span>
+                            <span class="metric-value">$95K</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Holders</span>
+                            <span class="metric-value">567</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Transactions</span>
+                            <span class="metric-value">8.9K</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="token-card">
+                    <div class="token-header">
+                        <div class="token-info">
+                            <div class="token-icon" style="background: #ffd93d;">P</div>
+                            <div class="token-name">
+                                <h3>Protocol</h3>
+                                <span class="token-symbol">PTC</span>
+                            </div>
+                        </div>
+                        <div class="token-price">
+                            <div class="price-main">$0.0034</div>
+                            <div class="price-change positive">▲ 45.2%</div>
+                        </div>
+                    </div>
+                    <div class="token-metrics">
+                        <div class="metric">
+                            <span class="metric-label">Market Cap</span>
+                            <span class="metric-value">$340K</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Volume (24h)</span>
+                            <span class="metric-value">$67K</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Holders</span>
+                            <span class="metric-value">423</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Transactions</span>
+                            <span class="metric-value">5.6K</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="token-card">
+                    <div class="token-header">
+                        <div class="token-info">
+                            <div class="token-icon" style="background: #a8e6cf;">N</div>
+                            <div class="token-name">
+                                <h3>Nexus</h3>
+                                <span class="token-symbol">NXS</span>
+                            </div>
+                        </div>
+                        <div class="token-price">
+                            <div class="price-main">$0.0212</div>
+                            <div class="price-change positive">▲ 8.7%</div>
+                        </div>
+                    </div>
+                    <div class="token-metrics">
+                        <div class="metric">
+                            <span class="metric-label">Market Cap</span>
+                            <span class="metric-value">$1.06M</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Volume (24h)</span>
+                            <span class="metric-value">$156K</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Holders</span>
+                            <span class="metric-value">678</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Transactions</span>
+                            <span class="metric-value">15.2K</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="token-card">
+                    <div class="token-header">
+                        <div class="token-info">
+                            <div class="token-icon" style="background: #ff8b94;">F</div>
+                            <div class="token-name">
+                                <h3>Flux</h3>
+                                <span class="token-symbol">FLX</span>
+                            </div>
+                        </div>
+                        <div class="token-price">
+                            <div class="price-main">$0.0056</div>
+                            <div class="price-change negative">▼ 1.8%</div>
+                        </div>
+                    </div>
+                    <div class="token-metrics">
+                        <div class="metric">
+                            <span class="metric-label">Market Cap</span>
+                            <span class="metric-value">$560K</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Volume (24h)</span>
+                            <span class="metric-value">$45K</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Holders</span>
+                            <span class="metric-value">334</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Transactions</span>
+                            <span class="metric-value">4.2K</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="chart-section" id="trends">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span>Deep Analytics</span>
+                    On-Chain Metrics
+                </h2>
+            </div>
+            <div class="chart-container">
+                <div class="chart-main">
+                    <h3 style="font-size: 1.25rem; text-transform: uppercase; margin-bottom: 1rem;">Transaction Volume (7 Days)</h3>
+                    <div class="chart-placeholder">
+                        <div class="chart-text">
+                            <div class="icon">📊</div>
+                            <div>Integrate Chart.js or D3.js for real-time visualization</div>
+                            <div style="margin-top: 0.5rem; font-size: 0.875rem;">Data from Canopy RPC Endpoint</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-sidebar">
+                    <div class="trend-list">
+                        <h4>🔥 Trending Up</h4>
+                        <div class="trend-item">
+                            <span><span class="trend-rank">1</span>PTC</span>
+                            <span class="positive">+45.2%</span>
+                        </div>
+                        <div class="trend-item">
+                            <span><span class="trend-rank">2</span>SHD</span>
+                            <span class="positive">+28.3%</span>
+                        </div>
+                        <div class="trend-item">
+                            <span><span class="trend-rank">3</span>CNPY</span>
+                            <span class="positive">+12.5%</span>
+                        </div>
+                        <div class="trend-item">
+                            <span><span class="trend-rank">4</span>NXS</span>
+                            <span class="positive">+8.7%</span>
+                        </div>
+                    </div>
+                    <div class="trend-list">
+                        <h4>📉 Watch List</h4>
+                        <div class="trend-item">
+                            <span><span class="trend-rank">1</span>VLT</span>
+                            <span class="negative">-3.2%</span>
+                        </div>
+                        <div class="trend-item">
+                            <span><span class="trend-rank">2</span>FLX</span>
+                            <span class="negative">-1.8%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span>Key Features</span>
+                    Why Canalytix?
+                </h2>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Real-Time Data</h3>
+                    <p>On-chain data updated every second directly from Canopy Network nodes. No delays, no stale data.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Deep Analytics</h3>
+                    <p>Advanced metrics including whale watching analysis, early trend detection, and volume-based predictions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔌</div>
+                    <h3>Open API</h3>
+                    <p>Fully documented REST API for integration with trading bots, mobile apps, or personal dashboards.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>On-Chain Validation</h3>
+                    <p>All data verified directly from Canopy blockchain. Transparent and tamper-proof.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Multi-Device</h3>
+                    <p>Access from desktop, tablet, or mobile. Responsive interface optimized for all screen sizes.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3>Complete Ecosystem</h3>
+                    <p>Support for all tokens in the Canopy ecosystem, including CW-20 tokens and native assets.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="api-section" id="api">
+            <div class="api-content">
+                <div>
+                    <h2 class="section-title">
+                        <span>Easy Integration</span>
+                        API for Developers
+                    </h2>
+                    <p style="font-size: 1.125rem; margin: 1.5rem 0; font-weight: 600;">
+                        Build your own analytics applications with our powerful and easy-to-use API. Support for Python, JavaScript, Go, and Rust.
+                    </p>
+                    <div class="cta-group">
+                        <a href="#" class="btn btn-primary">Full Documentation</a>
+                        <a href="#" class="btn btn-secondary">GitHub Repo</a>
+                    </div>
+                </div>
+                <div class="code-block">
+                    <div><span class="comment">// Fetch token data from Canalytix API</span></div>
+                    <div style="margin-top: 0.5rem;">
+                        <span class="keyword">const</span> response = <span class="keyword">await</span> fetch(<br>
+                        &nbsp;&nbsp;<span class="string">'https://api.canalytix.io/v1/tokens/cnpy'</span>,<br>
+                        &nbsp;&nbsp;{<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;headers: {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">'Authorization'</span>: <span class="string">'Bearer YOUR_API_KEY'</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;}<br>
+                        );
+                    </div>
+                    <div style="margin-top: 1rem;">
+                        <span class="keyword">const</span> data = <span class="keyword">await</span> response.json();<br>
+                        console.log(data.price); <span class="comment">// $0.0421</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="logo">
+                    <div class="logo-icon" style="background: var(--canopy-green); color: var(--black);">C</div>
+                    <span>Canalytix</span>
+                </div>
+                <p>Leading on-chain analytics platform for the Canopy Network ecosystem. Transparent, real-time, and decentralized.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="#">Dashboard</a></li>
+                    <li><a href="#">Token Explorer</a></li>
+                    <li><a href="#">Validator Stats</a></li>
+                    <li><a href="#">Governance</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Developer</h4>
+                <ul>
+                    <li><a href="#">API Documentation</a></li>
+                    <li><a href="#">SDK</a></li>
+                    <li><a href="#">GitHub</a></li>
+                    <li><a href="#">Status</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Community</h4>
+                <ul>
+                    <li><a href="#">Discord</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Telegram</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>© 2025 Canalytix. Built for Canopy Network.</div>
+            <div style="display: flex; gap: 2rem;">
+                <a href="#" style="color: var(--gray-600); text-decoration: none;">Privacy</a>
+                <a href="#" style="color: var(--gray-600); text-decoration: none;">Terms</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelector('.mobile-menu').addEventListener('click', function() {
+            alert('Mobile menu - implement drawer or dropdown as needed');
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        setInterval(() => {
+            const tickerItems = document.querySelectorAll('.ticker-item');
+            tickerItems.forEach(item => {
+                if (item.textContent.includes('BLOCK HEIGHT')) {
+                    const current = parseInt(item.textContent.replace(/[^0-9]/g, ''));
+                    item.textContent = `BLOCK HEIGHT ${(current + 1).toLocaleString()}`;
+                }
+            });
+        }, 3000);
+    </script>
+</body>
+</html>
